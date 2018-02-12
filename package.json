@@ -1,0 +1,31 @@
+{
+  "name": "softwareengi-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "bin": {
+    "softwareengi-backend": "www.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.12",
+    "sequelize": "^4.33.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start:dev": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregpmillr/softwareengi-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gregpmillr/softwareengi-backend/issues"
+  },
+  "homepage": "https://github.com/gregpmillr/softwareengi-backend#readme"
+}
