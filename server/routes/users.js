@@ -11,6 +11,14 @@ router.get('/', function(req, res) {
   res.json({ success: true })
 })
 
+router.get('/list', function(req,res) {
+  res.json({ success: true })
+})
+
+router.post('/update', function(req, res) {
+  res.json({ success: true })
+})
+
 router.post('/', (req, res) => {
   res.json({ success: true })
 })
