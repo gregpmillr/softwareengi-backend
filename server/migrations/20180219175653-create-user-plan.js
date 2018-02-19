@@ -11,20 +11,18 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model : 'users',
+          model: 'users',
           key: 'id'
         },
         allowNull: false,
-        onDelete: 'CASCADE'
       },
       plan_id: {
         type: Sequelize.INTEGER,
         references: {
-          model : 'plans',
+          model: 'plans',
           key: 'id'
         },
         allowNull: false,
-        onDelete: 'CASCADE',
       },
       coach_id: {
         type: Sequelize.INTEGER,

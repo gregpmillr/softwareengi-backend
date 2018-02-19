@@ -7,9 +7,12 @@
     "softwareengi-backend": "www.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
     "morgan": "^1.9.0",
+    "mysql2": "^1.5.2",
     "nodemon": "^1.14.12",
     "sequelize": "^4.33.2"
   },

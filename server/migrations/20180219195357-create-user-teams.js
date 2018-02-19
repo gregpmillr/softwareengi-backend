@@ -8,23 +8,29 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      coach_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        allowNull: true,
+      },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model : 'users',
+          model: 'users',
           key: 'id'
         },
         allowNull: false,
-        onDelete: 'CASCADE'
       },
       team_id: {
         type: Sequelize.INTEGER,
         references: {
-          model : 'teams',
+          model: 'teams',
           key: 'id'
         },
         allowNull: false,
-        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

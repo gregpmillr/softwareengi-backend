@@ -1,10 +1,17 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var user_teams = sequelize.define('user_teams', {
-    user_id: DataTypes.INTEGER
-  }, {});
-  user_teams.associate = function(models) {
-    // associations can be defined here
-  };
-  return user_teams;
+
+  const UserTeam = sequelize.define('user_teams', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    coach_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+  });
+
+  return UserTeam;
+
 };

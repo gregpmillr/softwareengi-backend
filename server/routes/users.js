@@ -1,26 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const user_controller = require('../controllers/user');
+const users_controller = require('../controllers/users');
 
 router.use((req,res,next) => {
   console.log('Time: ', Date.now())
   next()
 })
 
-router.get('/', function(req, res) {
-  res.json({ success: true })
-})
+router.get('/', users_controller.getAll);
 
-router.get('/list', function(req,res) {
-  res.json({ success: true })
-})
+router.get('/:id', users_controller.get);
 
-router.post('/update', function(req, res) {
-  res.json({ success: true })
-})
+router.post('/', users_controller.create);
 
-router.post('/', (req, res) => {
-  res.json({ success: true })
-})
+router.post('/update', users_controller.update);
 
 module.exports = router;
