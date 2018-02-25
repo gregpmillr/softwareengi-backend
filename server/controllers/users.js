@@ -1,5 +1,7 @@
 const User   = require('../models').users
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const config = require('../config/jwtConfig')
 
 exports.getAll = (req, res, next) => {
 
@@ -41,7 +43,13 @@ exports.create = (req, res, next) => {
       language        :  language
     })
     .then((user) => {
-      res.status(200).json(user)
+      let token = jwt.sign({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        coach: user.coach
+      }, config.jwtSecret)
+      res.status(200).json({token: token})
     })
     .catch((err) => {
       res.status(400).json({error:"Unable to create user"})

@@ -16,7 +16,9 @@ exports.auth = (req, res, next) => {
           if(same) {
             let token = jwt.sign({
               id: user.id,
-              username: user.username
+              username: user.username,
+              email: user.email,
+              coach: user.coach
             }, config.jwtSecret)
             resolve({token: token})
           } else {
