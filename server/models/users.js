@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     }
-  });
+  }, {underscored: true});
 
   User.associate = function(models) {
     User.belongsToMany(models.plans, { through: 'user_plans', as: 'plan' });

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     }
-  });
+  }, {underscored: true});
 
   Plan.associate = function(models) {
     Plan.belongsToMany(models.users, { through: 'user_plans', as: 'user' })

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-  });
+  }, {underscored: true});
 
   return UserTeam;
 

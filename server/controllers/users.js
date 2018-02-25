@@ -2,34 +2,75 @@ const User   = require('../models').users
 const bcrypt = require('bcryptjs')
 
 exports.getAll = (req, res, next) => {
-  console.log('get all')
+
+  User.findAll({})
+    .then((users) => {
+      res.status(200).json(users)
+    })
+    .catch((err) => {
+      res.status(400).json(err)
+    })
+
 }
 
 exports.get = (req, res, next) => {
-  User.findById(req.params.id)
-    .then(
-      user => {
-        console.log(user);
-      }
-    )
+
+  let {id} = req.params
+
+  User.findById(id)
+    .then((user) => {
+      res.status(200).json(user)
+    })
+    .catch((err) => {
+      res.status(400).json(err)
+    })
+
 }
 
 exports.create = (req, res, next) => {
 
-  const { username, password } = req.body
-  const password_digest        = bcrypt.hashSync(password, 10)
+  let { username, password, email, coach } = req.body
+  let password_digest = bcrypt.hashSync(password, 10)
 
-  return User
-          .create({
-            username:        req.body.username,
-            email:           req.body.email,
-            password_digest: password_digest,
-            coach:           req.body.coach
-          })
-          .then(user   => res.status(201).json({success: "true"}))
-          .catch(error => res.status(400).json({success: "false"}))
+  User
+    .create({
+      username        :  username,
+      email           :  email,
+      password_digest :  password_digest,
+      coach           :  coach
+    })
+    .then((user) => {
+      res.status(200).json(user)
+    })
+    .catch((err) => {
+      res.status(400).json({error:"Unable to create user"})
+    })
+
 }
 
 exports.update = (req, res, next) => {
-  console.log('update')
+
+  let { username, email, coach, id } = req.body
+
+  User.findById(id)
+    .then((user) => {
+      return user.update({
+        username        :  username,
+        email           :  email,
+        coach           :  coach
+      })
+      .then((user) => {
+        return user
+      })
+      .catch((err) => {
+        throw err
+      })
+    })
+    .then((user) => {
+      res.status(200).json(user)
+    })
+    .catch((err) => {
+      res.status(400).json({error: "Unable to update user"})
+    })
+
 }

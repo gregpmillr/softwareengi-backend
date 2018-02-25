@@ -1,29 +1,75 @@
 const Plan = require('../models').plans;
+let isEmpty = require('lodash.isempty');
 
 exports.getAll = (req, res, next) => {
-  console.log('get all')
+
+  Plan.findAll({})
+    .then((plans) => {
+      res.status(200).json(plans)
+    })
+    .catch((err) => {
+      res.status(400).json(err)
+    })
+
 }
 
 exports.get = (req, res, next) => {
-  Plan.findById(req.params.id)
-    .then(
-      plan => {
-        console.log(plan);
-      }
-    )
+
+  let {id} = req.params
+
+  Plan.findById(id)
+    .then((plan) => {
+      res.status(200).json(plan)
+    })
+    .catch((err) => {
+      res.status(400).json(err)
+    })
+
 }
 
 exports.create = (req, res, next) => {
-  return Plan
-          .create({
-            title:      req.body.title,
-            difficulty: req.body.difficulty,
-            completed:  req.body.completed,
-          })
-          .then(test   => res.status(201).send(test))
-          .catch(error => res.status(400).send(error));
+
+  let { title, difficulty, completed } = req.body;
+
+  Plan
+    .create({
+      title      : title,
+      difficulty : difficulty,
+      completed  : completed,
+    })
+    .then((plan) => {
+      res.status(200).json(plan)
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400).json({error:"Unable to create plan"})
+    })
+
 }
 
 exports.update = (req, res, next) => {
-  console.log('update')
+
+  let { title, difficulty, completed, id } = req.body
+
+  Plan.findById(id)
+    .then((plan) => {
+      return plan.update({
+        title: title,
+        difficulty: difficulty,
+        completed: completed,
+      })
+      .then((plan) => {
+        return plan
+      })
+      .catch((err) => {
+        throw err
+      })
+    })
+    .then((plan) => {
+      res.status(200).json(plan)
+    })
+    .catch((err) => {
+      res.status(400).json({error: "Unable to update plan"})
+    })
+
 }
