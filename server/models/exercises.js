@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {underscored: true});
 
   Exercise.associate = function(models) {
-    Exercise.belongsTo(models.plans)
+    Exercise.belongsTo(models.plans, {
+      foreignKey: 'plan_id',
+      as: 'plan'
+    })
   };
 
   return Exercise;

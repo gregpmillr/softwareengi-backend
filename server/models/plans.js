@@ -20,7 +20,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {underscored: true});
 
   Plan.associate = function(models) {
-    Plan.belongsToMany(models.users, { through: 'user_plans', as: 'user' })
+    Plan.belongsToMany(models.users, {
+      through: {
+        model : models.user_plans,
+        unique: false
+      },
+      foreignKey: 'plan_id'
+    })
     Plan.hasMany(models.exercises)
   }
   return Plan;

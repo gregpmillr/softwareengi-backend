@@ -29,7 +29,7 @@ exports.get = (req, res, next) => {
 
 exports.create = (req, res, next) => {
 
-  let { username, password, email, coach } = req.body
+  let { username, password, email, coach, language } = req.body
   let password_digest = bcrypt.hashSync(password, 10)
 
   User
@@ -37,7 +37,8 @@ exports.create = (req, res, next) => {
       username        :  username,
       email           :  email,
       password_digest :  password_digest,
-      coach           :  coach
+      coach           :  coach,
+      language        :  language
     })
     .then((user) => {
       res.status(200).json(user)
