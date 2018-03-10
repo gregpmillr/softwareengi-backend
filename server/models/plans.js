@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       foreignKey: 'plan_id'
     })
-    Plan.hasMany(models.exercises)
+    Plan.hasMany(models.steps)
   }
   return Plan;
 

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Exercise = sequelize.define('exercises', {
+  const Step = sequelize.define('steps', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -9,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    completed_by_date: {
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
     }
   }, {underscored: true});
 
-  Exercise.associate = function(models) {
-    Exercise.belongsTo(models.plans, {
+  Step.associate = function(models) {
+    Step.belongsTo(models.plans, {
       foreignKey: 'plan_id',
       as: 'plan'
     })
   };
 
-  return Exercise;
+  return Step;
 
 };

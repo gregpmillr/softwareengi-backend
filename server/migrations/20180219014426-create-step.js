@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('exercises', {
+    return queryInterface.createTable('steps', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,10 +11,6 @@ module.exports = {
       steps: {
         allowNull: false,
         type: Sequelize.INTEGER
-      },
-      completed_by_date: {
-        allowNull: false,
-        type: Sequelize.DATE,
       },
       plan_id: {
         type: Sequelize.INTEGER,
@@ -35,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('exercises');
+    return queryInterface.dropTable('steps');
   }
 };
