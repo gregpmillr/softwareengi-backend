@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      completed: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-      },
       required_steps: {
         type: Sequelize.INTEGER,
         allowNull: false,

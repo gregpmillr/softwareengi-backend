@@ -32,6 +32,10 @@ module.exports = {
         },
         allowNull: false,
       },
+      completed: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
