@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {underscored: true});
 
-  Plan.associate = function(models) {
-    Plan.hasMany(models.steps, {foreignKey: 'user_plan_id', as: 'Steps'})
+  UserPlan.associate = function(models) {
+    UserPlan.hasMany(models.steps, {foreignKey: 'user_plan_id', as: 'Steps'})
   }
 
   return UserPlan;
