@@ -9,14 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    difficulty: {
-      type: DataTypes.INTEGER,
+    required_steps: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    }
   }, {underscored: true});
 
   Plan.associate = function(models) {
@@ -27,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       foreignKey: 'plan_id'
     })
-    Plan.hasMany(models.steps)
-  }
+  };
+  
   return Plan;
 
 };

@@ -6,11 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    coach_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+    completed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
     },
   }, {underscored: true});
+
+  Plan.associate = function(models) {
+    Plan.hasMany(models.steps, {foreignKey: 'user_plan_id', as: 'Steps'})
+  }
 
   return UserPlan;
 

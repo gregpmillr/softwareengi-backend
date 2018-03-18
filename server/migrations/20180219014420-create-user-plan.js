@@ -26,8 +26,11 @@ module.exports = {
       },
       coach_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'users', key: 'id' },
-        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        allowNull: false,
       },
       created_at: {
         allowNull: false,

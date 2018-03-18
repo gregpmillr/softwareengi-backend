@@ -28,6 +28,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      last_login_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -35,7 +39,7 @@ module.exports = {
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

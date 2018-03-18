@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     language: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    last_login_at: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, {underscored: true});
 

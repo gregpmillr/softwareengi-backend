@@ -12,14 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      plan_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'plans',
-          key: 'id'
-        },
-        allowNull: false,
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -27,7 +19,15 @@ module.exports = {
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      user_plan_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'user_plans',
+          key: 'id'
+        },
+        allowNull: false,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

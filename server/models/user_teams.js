@@ -6,10 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    coach_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
   }, {underscored: true});
 
   return UserTeam;

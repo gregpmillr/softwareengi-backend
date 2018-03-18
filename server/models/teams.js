@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    coach_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
   }, {underscored: true});
 
   Team.associate = function(models) {
@@ -22,4 +26,5 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   return Team;
+  
 };

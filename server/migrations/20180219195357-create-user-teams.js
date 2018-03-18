@@ -8,14 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      coach_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        allowNull: true,
-      },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -28,6 +20,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'teams',
+          key: 'id'
+        },
+        allowNull: false,
+      },
+      coach_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
           key: 'id'
         },
         allowNull: false,
