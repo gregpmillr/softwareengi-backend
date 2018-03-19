@@ -51,6 +51,7 @@ exports.create = (req, res, next) => {
       res.status(200).json({token: token})
     })
     .catch((err) => {
+      console.log(err)
       res.status(400).json({error:"Unable to create user"})
     })
 

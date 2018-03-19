@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     last_login_at: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     }
   }, {underscored: true});
 
