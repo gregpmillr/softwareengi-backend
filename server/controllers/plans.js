@@ -29,19 +29,17 @@ exports.get = (req, res, next) => {
 
 exports.create = (req, res, next) => {
 
-  let { title, difficulty, completed } = req.body;
+  let { title, required_steps } = req.body;
 
   Plan
     .create({
-      title      : title,
-      difficulty : difficulty,
-      completed  : completed,
+      title          : title,
+      required_steps : required_steps,
     })
     .then((plan) => {
       res.status(200).json(plan)
     })
     .catch((err) => {
-      console.log(err)
       res.status(400).json({error:"Unable to create plan"})
     })
 
@@ -49,14 +47,13 @@ exports.create = (req, res, next) => {
 
 exports.update = (req, res, next) => {
 
-  let { title, difficulty, completed, id } = req.body
+  let { title, required_steps, id } = req.body
 
   Plan.findById(id)
     .then((plan) => {
       return plan.update({
         title: title,
-        difficulty: difficulty,
-        completed: completed,
+        required_steps: required_steps
       })
       .then((plan) => {
         return plan

@@ -30,7 +30,6 @@ exports.get = (req, res, next) => {
 }
 
 exports.create = (req, res, next) => {
-console.log(req.body)
   let { username, password, email, coach, language } = req.body
   let password_digest = bcrypt.hashSync(password, 10)
 

@@ -32,8 +32,8 @@ exports.create = (req, res, next) => {
 
    Step
     .create({
-      steps   : steps,
-      plan_id : plan_id,
+      steps        : steps,
+      user_plan_id : user_plan_id,
     })
     .then((step) => {
       res.status(200).json(step)
