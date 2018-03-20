@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       last_login_at: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       created_at: {
