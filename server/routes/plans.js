@@ -15,4 +15,6 @@ router.post('/', plans_controller.create);
 
 router.post('/update', plans_controller.update);
 
+router.post('/delete', plans_controller.delete);
+
 module.exports = router;
