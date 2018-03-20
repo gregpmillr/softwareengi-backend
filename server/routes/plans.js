@@ -7,7 +7,7 @@ router.use((req,res,next) => {
   next()
 })
 
-router.get('/', plans_controller.getAll);
+router.get('/:username/list', plans_controller.getAll);
 
 router.get('/:id', plans_controller.get);
 
