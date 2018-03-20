@@ -3,7 +3,13 @@ let isEmpty = require('lodash.isempty');
 
 exports.getAll = (req, res, next) => {
 
-  Plan.findAll({})
+  let { username } = req.params
+
+  Plan.findAll({
+    where: {
+      username: username
+    }
+  })
     .then((plans) => {
       res.status(200).json({plans})
     })
@@ -13,17 +19,38 @@ exports.getAll = (req, res, next) => {
 
 }
 
+exports.delete = (req,res,next) => {
+
+  let { title } = req.params
+
+  Plan.destroy({
+    where: {
+      id: id
+    }
+  }).then(() => {
+    res.status(200)
+  }).catch(() => {
+    res.status(400)
+  })
+
+
+}
+
 exports.get = (req, res, next) => {
 
-  let {id} = req.params
+  let { title } = req.params
 
-  Plan.findById(id)
-    .then((plan) => {
-      res.status(200).json(plan)
-    })
-    .catch((err) => {
-      res.status(400).json(err)
-    })
+  Plan.findOne({
+    where: {
+      title: title
+    }
+  })
+  .then((plan) => {
+    res.status(200).json(plan)
+  })
+  .catch((err) => {
+    res.status(400).json(err)
+  })
 
 }
 
