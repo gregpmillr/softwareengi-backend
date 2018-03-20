@@ -5,7 +5,7 @@ exports.getAll = (req, res, next) => {
 
   Plan.findAll({})
     .then((plans) => {
-      res.status(200).json(plans)
+      res.status(200).json({plans})
     })
     .catch((err) => {
       res.status(400).json(err)
@@ -40,6 +40,7 @@ exports.create = (req, res, next) => {
       res.status(200).json(plan)
     })
     .catch((err) => {
+      console.log(err)
       res.status(400).json({error:"Unable to create plan"})
     })
 
@@ -66,6 +67,7 @@ exports.update = (req, res, next) => {
       res.status(200).json(plan)
     })
     .catch((err) => {
+      console.log(err)
       res.status(400).json({error: "Unable to update plan"})
     })
 

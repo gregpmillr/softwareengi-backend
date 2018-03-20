@@ -18,7 +18,8 @@ exports.auth = (req, res, next) => {
               id: user.id,
               username: user.username,
               email: user.email,
-              coach: user.coach
+              coach: user.coach,
+              language: user.language
             }, config.jwtSecret)
             resolve({token: token})
           } else {
