@@ -37,19 +37,19 @@ exports.delete = (req,res,next) => {
     attributes: ['id','title']
   })
   .then((plan) => {
-    UserPlan.findOne({
+    return UserPlan.findOne({
       where: {
         plan_id : plan.id
       }
     })
     .then((userPlan) => {
-      userPlan.destroy()
+      return userPlan.destroy()
     })
     .catch((err) => {
       throw err
     })
     .then(() => {
-      plan.destroy()
+      return plan.destroy()
     })
     .catch((err) => {
       throw err
