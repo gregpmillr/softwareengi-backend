@@ -63,12 +63,12 @@ exports.delete = (req,res,next) => {
   .catch((err) => {
     console.log('6')
     console.log(err)
-    res.status(400)
+    res.sendStatus(400)
   })
   .then(() => {
     console.log('7')
     console.log('this is a test')
-    res.status(200)
+    res.sendStatus(200)
   })
 
 }
