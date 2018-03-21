@@ -69,6 +69,7 @@ exports.create = (req, res, next) => {
           username: username
         }
       }).then((user) => {
+        console.log('user:' + user)
         plan.addUser(user)
         res.status(200).json(plan)
       }).catch((err) => {

@@ -30,10 +30,10 @@ module.exports = {
           model: 'users',
           key: 'id'
         },
-        allowNull: false,
+        allowNull: true,
       },
       completed: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       },
       created_at: {
