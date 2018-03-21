@@ -1,4 +1,5 @@
 const Plan = require('../models').plans;
+const UserPlan = require('../models').user_plans;
 let isEmpty = require('lodash.isempty');
 
 exports.getAll = (req, res, next) => {
@@ -33,8 +34,23 @@ exports.delete = (req,res,next) => {
     title: planTitle
   })
   .then((plan) => {
-    plan.destroy({ force: true })
-    res.status(200)
+    return UserPlan.findOne({
+      where: {
+        plan_id : plan.id
+      }
+    })
+    .then((userPlan) => {
+      console.log('user plan------' + userPlan)
+      userPlan.destroy()
+      return
+    })
+    .catch((err) => {
+      throw err
+    })
+    .then(() => {
+      plan.destroy()
+      res.status(200)
+    })
   })
   .catch((err) => {
     console.log(err)
