@@ -17,14 +17,11 @@ module.exports = (sequelize, DataTypes) => {
 
   Plan.associate = function(models) {
     Plan.belongsToMany(models.users, {
-      through: {
-        model : models.user_plans,
-        unique: false
-      },
+      through: 'user_plans',
       foreignKey: 'plan_id'
     })
   };
-  
+
   return Plan;
 
 };
