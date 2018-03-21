@@ -9,7 +9,7 @@ router.use((req,res,next) => {
 
 router.get('/:username/list', plans_controller.getAll);
 
-router.get('/:id', plans_controller.get);
+router.get('/:title', plans_controller.get);
 
 router.post('/', plans_controller.create);
 
