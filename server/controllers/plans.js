@@ -40,29 +40,36 @@ exports.delete = (req,res,next) => {
     attributes: ['id','title']
   })
   .then((plan) => {
+    console.log('1')
     return UserPlan.findOne({
       where: {
         plan_id : plan.id
       }
     })
     .then((userPlan) => {
+      console.log('2')
       return userPlan.destroy()
     })
     .catch((err) => {
+      console.log('3')
       throw err
     })
     .then(() => {
+      console.log('4')
       return plan.destroy()
     })
     .catch((err) => {
+      console.log('5')
       throw err
     })
   })
   .catch((err) => {
+    console.log('6')
     console.log(err)
     res.status(400)
   })
   .then(() => {
+    console.log('7')
     console.log('this is a test')
     res.status(200)
   })
