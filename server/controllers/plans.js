@@ -34,7 +34,7 @@ exports.delete = (req,res,next) => {
   let { planTitle } = req.body
 
   Plan.findOne({
-    attributes: ['id','title']
+    attributes: ['id','title'],
     where: {
       title: planTitle
     }
