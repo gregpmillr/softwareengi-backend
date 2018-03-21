@@ -41,17 +41,6 @@ exports.delete = (req,res,next) => {
     res.status(400)
   })
 
-  Plan.destroy({
-    where: {
-      title: title
-    }
-  }).then(() => {
-    res.status(200)
-  }).catch(() => {
-    res.status(400)
-  })
-
-
 }
 
 exports.get = (req, res, next) => {
