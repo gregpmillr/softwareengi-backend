@@ -24,14 +24,6 @@ module.exports = {
         },
         allowNull: false,
       },
-      coach_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        allowNull: true,
-      },
       completed: {
         allowNull: true,
         type: Sequelize.BOOLEAN,
