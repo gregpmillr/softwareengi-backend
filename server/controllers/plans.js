@@ -31,6 +31,7 @@ exports.delete = (req,res,next) => {
   let { planTitle } = req.body
 
   Plan.findOne({
+    attributes: ['id','title']
     where: {
       title: planTitle
     }
@@ -38,7 +39,7 @@ exports.delete = (req,res,next) => {
   .then((plan) => {
     console.log('1')
     console.log(plan.id)
-    
+
     return UserPlan.findOne({
       where: {
         plan_id : plan.id
