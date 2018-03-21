@@ -5,18 +5,24 @@ exports.getAll = (req, res, next) => {
 
   let { username } = req.params
 
-  Plan.findAll({
+  User.findOne({
     where: {
       username: username
     }
   })
-    .then((plans) => {
-      res.status(200).json(plans)
-    })
-    .catch((err) => {
-      res.status(400).json(err)
-    })
-
+  .then((user) => {
+    user.getPlans()
+      .then((plans) => {
+        console.log(plans);
+        res.status(200).json(plans)
+      })
+      .catch((err) => {
+        throw err
+      })
+  })
+  .catch((err) => {
+    res.status(400).json(err)
+  })
 }
 
 exports.delete = (req,res,next) => {
@@ -69,8 +75,6 @@ exports.create = (req, res, next) => {
           username: username
         }
       }).then((user) => {
-        console.log('user:' + user)
-        consoe.log('here is the plan:' + plan)
         plan.addUsers([user])
         res.status(200).json(plan)
       }).catch((err) => {
@@ -78,7 +82,6 @@ exports.create = (req, res, next) => {
       })
     })
     .catch((err) => {
-      console.log(err)
       res.status(400).json({error:"Unable to create plan"})
     })
 
