@@ -34,12 +34,14 @@ exports.delete = (req,res,next) => {
     title: planTitle
   })
   .then((plan) => {
+    console.log('1')
     return UserPlan.findOne({
       where: {
         plan_id : plan.id
       }
     })
     .then((userPlan) => {
+      console.log(2)
       console.log('user plan------' + userPlan)
       userPlan.destroy()
       return
