@@ -56,6 +56,9 @@ exports.delete = (req,res,next) => {
     console.log(err)
     return res.status(400)
   })
+  .then(() => {
+    return res.status(200)
+  })
 
 }
 
