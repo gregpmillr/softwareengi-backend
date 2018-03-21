@@ -33,7 +33,7 @@ exports.delete = (req,res,next) => {
     title: planTitle
   })
   .then((plan) => {
-    plan.destroy({ truncate: { cascade: true } })
+    plan.destroy({ cascade: true } })
     res.status(200)
   })
   .catch((err) => {
