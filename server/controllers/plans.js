@@ -56,7 +56,7 @@ exports.get = (req, res, next) => {
 
 exports.create = (req, res, next) => {
 
-  let { title, required_steps } = req.body;
+  let { title, required_steps, username } = req.body;
 
   Plan
     .create({
@@ -64,9 +64,19 @@ exports.create = (req, res, next) => {
       required_steps : required_steps,
     })
     .then((plan) => {
-      res.status(200).json(plan)
+      User.findOne({
+        where: {
+          username: username
+        }
+      }).then((user) => {
+        plan.addUser(user)
+        res.status(200).json(plan)
+      }).catch((err) => {
+        throw err
+      })
     })
     .catch((err) => {
+      console.log(err)
       res.status(400).json({error:"Unable to create plan"})
     })
 
