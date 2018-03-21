@@ -59,7 +59,7 @@ exports.get = (req, res, next) => {
 exports.create = (req, res, next) => {
 
   let { title, required_steps, username } = req.body;
-
+console.log(username);
   Plan
     .create({
       title          : title,
