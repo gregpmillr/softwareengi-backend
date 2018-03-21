@@ -29,7 +29,19 @@ exports.getAll = (req, res, next) => {
 
 exports.delete = (req,res,next) => {
 
-  let { title } = req.params
+  let { planTitle } = req.body
+
+  Plan.findOne({
+    title: planTitle
+  })
+  .then((plan) => {
+    plan.destroy()
+    res.status(200)
+  })
+  .catch((err) => {
+    console.log(err)
+    res.status(400)
+  })
 
   Plan.destroy({
     where: {
