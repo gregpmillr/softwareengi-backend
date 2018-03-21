@@ -46,7 +46,7 @@ exports.delete = (req,res,next) => {
       }
     })
     .then((userPlan) => {
-      return userPlan.destroy()
+      userPlan.destroy()
     })
     .catch((err) => {
       throw err
