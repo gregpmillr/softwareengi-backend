@@ -37,6 +37,8 @@ exports.delete = (req,res,next) => {
   })
   .then((plan) => {
     console.log('1')
+    console.log(plan.id)
+    
     return UserPlan.findOne({
       where: {
         plan_id : plan.id
