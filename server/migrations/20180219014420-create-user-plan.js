@@ -8,7 +8,7 @@ module.exports = {
           primaryKey: true,
           autoIncrement: true
       },
-      userId: {
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -16,7 +16,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      planId: {
+      plan_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'plans',
@@ -24,7 +24,7 @@ module.exports = {
         },
         allowNull: false,
       },
-      coachId: {
+      coach_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
