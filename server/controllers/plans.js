@@ -1,4 +1,5 @@
 const Plan = require('../models').plans;
+const User = require('../models').users;
 let isEmpty = require('lodash.isempty');
 
 exports.getAll = (req, res, next) => {
@@ -65,14 +66,18 @@ exports.create = (req, res, next) => {
       required_steps : required_steps,
     })
     .then((plan) => {
+console.log('plan:' + plan)
       User.findOne({
         where: {
           username: username
         }
       }).then((user) => {
+console.log('persisted plan'+ plan)
+console.log('user:'+user)
         plan.addUser(user)
         res.status(200).json(plan)
       }).catch((err) => {
+        console.log(err)
         throw err
       })
     })
