@@ -72,8 +72,7 @@ console.log('plan:' + plan)
           username: username
         }
       }).then((user) => {
-console.log('persisted plan'+ plan)
-console.log('user:'+user)
+        console.log('user:' + user)
         plan.addUser(user)
         res.status(200).json(plan)
       }).catch((err) => {
