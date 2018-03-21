@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Plan.associate = function(models) {
     Plan.belongsToMany(models.users, {
-      through: 'user_plans'
+      through: 'user_plans',
+      onDelete: 'cascade'
     })
   };
 
