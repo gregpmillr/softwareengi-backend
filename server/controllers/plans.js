@@ -14,6 +14,7 @@ exports.getAll = (req, res, next) => {
       res.status(200).json(plans)
     })
     .catch((err) => {
+      console.log(err)
       res.status(400).json(err)
     })
 
