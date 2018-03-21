@@ -37,7 +37,7 @@ exports.delete = (req,res,next) => {
     attributes: ['id','title']
   })
   .then((plan) => {
-    return UserPlan.findOne({
+    UserPlan.findOne({
       where: {
         plan_id : plan.id
       }
@@ -48,13 +48,20 @@ exports.delete = (req,res,next) => {
     .catch((err) => {
       throw err
     })
+    .then(() => {
+      plan.destroy()
+    })
+    .catch((err) => {
+      throw err
+    })
   })
   .catch((err) => {
     console.log(err)
-    return res.status(400)
+    res.status(400)
   })
   .then(() => {
-    return res.status(200)
+    console.log('this is a test')
+    res.status(200)
   })
 
 }
