@@ -1,6 +1,7 @@
 const Plan = require('../models').plans;
 const User = require('../models').users;
 let isEmpty = require('lodash.isempty');
+let sequelize = require('../models/index').db;
 
 exports.getAll = (req, res, next) => {
 
@@ -74,7 +75,11 @@ console.log('plan:' + plan)
       }).then((user) => {
         console.log('user:' + user)
         plan.addUser(user)
-        res.status(200).json(plan)
+        sequelize.query("SELECT * FROM `users`", { type: sequelize.QueryTypes.SELECT})
+          .then(users => {
+            console.log('HERE ARE THE USERS:' + users)
+          })
+          res.status(200).json(plan)
       }).catch((err) => {
         console.log(err)
         throw err
