@@ -34,7 +34,9 @@ exports.delete = (req,res,next) => {
   let { planTitle } = req.body
 
   Plan.findOne({
-    title: planTitle
+    where: {
+      title: planTitle
+    }
   })
   .then((plan) => {
     console.log('1')
