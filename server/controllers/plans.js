@@ -70,15 +70,15 @@ exports.get = (req, res, next) => {
 
 }
 
-exports.update = (req, res, next) => {
+exports.update_required_steps = (req,res,next) => {
 
-  let { title, required_steps, id } = req.body
+  let { new_title, new_required_steps, plan_id } = req.body
 
-  Plan.findById(id)
+  Plan.findById(plan_id)
     .then((plan) => {
       return plan.update({
-        title: title,
-        required_steps: required_steps
+        title: new_title,
+        required_steps: new_required_steps
       })
       .then((plan) => {
         return plan
@@ -88,21 +88,21 @@ exports.update = (req, res, next) => {
       })
     })
     .then((plan) => {
-      res.status(200).json(plan)
+      res.status(200).json({status: "ok"})
     })
     .catch((err) => {
-      res.status(400).json({error: "Unable to update plan"})
+      res.status(400).json({error: "Unable to update required steps in plan"})
     })
 
 }
 
 exports.delete = (req,res,next) => {
 
-  let { planTitle } = req.body
+  let { plan_id } = req.body
 
   Plan.findOne({
     where: {
-      title: planTitle
+      id: plan_id
     },
     attributes: ['id','title']
   })
