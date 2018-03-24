@@ -84,52 +84,6 @@ exports.update = (req, res, next) => {
 
 }
 
-exports.update_email = (req,res,next) => {
-  let { email, id } = req.body
-
-  User.findById(id)
-    .then((user) => {
-      return user.update({
-        email: email
-      })
-      .then((user) => {
-        return user
-      })
-      .catch((err) => {
-        throw err
-      })
-    })
-    .then((user) => {
-      res.status(200)
-    })
-    .catch((err) => {
-      res.status(400)
-    })
-}
-
-exports.update_language = (req,res,next) => {
-  let { language, id } = req.body
-
-  User.findById(id)
-    .then((user) => {
-      return user.update({
-        language: language
-      })
-      .then((user) => {
-        return user
-      })
-      .catch((err) => {
-        throw err
-      })
-    })
-    .then((user) => {
-      res.status(200)
-    })
-    .catch((err) => {
-      res.status(400)
-    })
-}
-
 exports.update_coach = (req,res,next) => {
   let { coach, id } = req.body
 

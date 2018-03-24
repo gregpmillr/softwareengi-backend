@@ -73,28 +73,8 @@ exports.get = (req, res, next) => {
 
 }
 
-exports.update_required_steps = (req,res,next) => {
+exports.update = (req,res,next) => {
 
-<<<<<<< HEAD
-  let { title, required_steps, username } = req.body;
-console.log(username);
-  Plan
-    .create({
-      title          : title,
-      required_steps : required_steps,
-    })
-    .then((plan) => {
-console.log('plan:' + plan)
-      User.findOne({
-        where: {
-          username: username
-        }
-      }).then((user) => {
-        plan.addUsers([user])
-        res.status(200).json(plan)
-      }).catch((err) => {
-        console.log(err)
-=======
   let { new_title, new_required_steps, plan_id } = req.body
 
   Plan.findById(plan_id)
@@ -107,7 +87,6 @@ console.log('plan:' + plan)
         return plan
       })
       .catch((err) => {
->>>>>>> f82f37f3fa8cc9395559cf9dc68c109e7142f25f
         throw err
       })
     })
