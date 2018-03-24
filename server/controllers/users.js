@@ -21,7 +21,7 @@ exports.get = (req, res, next) => {
 
   User.findById(id)
     .then((user) => {
-      res.status(200).json(user)
+      res.status(200).json({user})
     })
     .catch((err) => {
       res.status(400).json(err)
@@ -38,7 +38,7 @@ exports.create = (req, res, next) => {
       username        :  username,
       email           :  email,
       password_digest :  password_digest,
-      coach           :  coach,
+      coach           :  coach === "true" ? 1 : 0,
       language        :  language
     })
     .then((user) => {
@@ -70,7 +70,8 @@ exports.update = (req, res, next) => {
     return user.update({
       username        :  username,
       email           :  email,
-      coach           :  coach
+      coach           :  coach,
+      language        :  language
     })
     .then((user) => {
       return user
@@ -83,6 +84,7 @@ exports.update = (req, res, next) => {
     res.status(200).json(user)
   })
   .catch((err) => {
+    console.log(err)
     res.status(400).json({error: "Unable to update user"})
   })
 
