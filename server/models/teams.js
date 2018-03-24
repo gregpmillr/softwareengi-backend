@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     })
 
-    Team.belongsTo(models.coach);
+    Team.belongsTo(models.users);
 
   };
 
