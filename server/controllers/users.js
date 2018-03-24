@@ -59,28 +59,32 @@ exports.create = (req, res, next) => {
 
 exports.update = (req, res, next) => {
 
-  let { username, email, coach, id } = req.body
+  let { username, email, language, coach } = req.body
 
-  User.findById(id)
-    .then((user) => {
-      return user.update({
-        username        :  username,
-        email           :  email,
-        coach           :  coach
-      })
-      .then((user) => {
-        return user
-      })
-      .catch((err) => {
-        throw err
-      })
+  User.findOne({
+    where: {
+      username: username
+    }
+  })
+  .then((user) => {
+    return user.update({
+      username        :  username,
+      email           :  email,
+      coach           :  coach
     })
     .then((user) => {
-      res.status(200).json(user)
+      return user
     })
     .catch((err) => {
-      res.status(400).json({error: "Unable to update user"})
+      throw err
     })
+  })
+  .then((user) => {
+    res.status(200).json(user)
+  })
+  .catch((err) => {
+    res.status(400).json({error: "Unable to update user"})
+  })
 
 }
 
