@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      user_plan_id: {
+      user_plans_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'user_plans',

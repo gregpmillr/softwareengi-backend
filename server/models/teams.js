@@ -8,23 +8,19 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    coach_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+    }
   }, {underscored: true});
 
   Team.associate = function(models) {
     Team.belongsToMany(models.users, {
-      through: {
-        model: models.user_teams,
-        unique: false
-      },
-      foreignKey: 'team_id'
+      through: 'user_teams',
+      onDelete: 'CASCADE'
     })
+
+    Team.belongsTo(models.coach);
+
   };
 
   return Team;
-  
+
 };

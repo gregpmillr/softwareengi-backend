@@ -8,17 +8,12 @@ module.exports = (sequelize, DataTypes) => {
     steps: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    user_plan_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    }
   }, {underscored: true});
 
   Step.associate = function(models) {
     Step.belongsTo(models.user_plans, {
-      foreignKey: 'user_plan_id',
-      as: 'user_plan'
+      foreignKey: 'step_id'
     })
   };
 
