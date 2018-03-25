@@ -1,4 +1,6 @@
 const User   = require('../models').users
+const Plan  = require('../models').plans
+const Team = require('../models').teams
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('../config/jwtConfig')
@@ -17,15 +19,21 @@ exports.getAll = (req, res, next) => {
 
 exports.get = (req, res, next) => {
 
-  let {id} = req.params
+  let {username} = req.params
 
-  User.findById(id)
-    .then((user) => {
-      res.status(200).json({user})
-    })
-    .catch((err) => {
-      res.status(400).json(err)
-    })
+  User.findOne({
+    where: {
+      username:username
+    },
+    include: [ Plan, Team ] 
+  })
+  .then((user) => {
+    // here we have access to the users, their plans and user_plans
+    res.status(200).json( { plan_length:Object.keys(user.plans).length, team_length: Object.keys(user.teams).length } )
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  })
 
 }
 
