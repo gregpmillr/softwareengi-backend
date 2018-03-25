@@ -25,7 +25,7 @@ exports.get = (req, res, next) => {
     where: {
       username:username
     },
-    include: [ Plan, Team ] 
+    include: [ Plan, Team ]
   })
   .then((user) => {
     // here we have access to the users, their plans and user_plans

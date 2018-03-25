@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Step.associate = function(models) {
     Step.belongsTo(models.user_plans, {
-      foreignKey: 'step_id'
+      foreignKey: 'user_plans_id'
     })
   };
 

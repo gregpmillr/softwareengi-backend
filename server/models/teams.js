@@ -15,7 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     Team.belongsToMany(models.users, {
       through: 'user_teams',
       onDelete: 'CASCADE'
-    })
+    });
+
+    Team.belongsTo(models.users, {
+      as: 'Coach' ,
+      foreignKey: 'coach_id',
+      targetKey: 'id'
+    });
   };
 
   return Team;
