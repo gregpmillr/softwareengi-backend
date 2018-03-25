@@ -16,9 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       through: 'user_teams',
       onDelete: 'CASCADE'
     })
-
-    Team.belongsTo(models.users);
-
   };
 
   return Team;
