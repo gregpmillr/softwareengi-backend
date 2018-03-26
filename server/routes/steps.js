@@ -7,7 +7,9 @@ router.use((req,res,next) => {
   next()
 })
 
-router.get('/:username/:plan_id/list', steps_controller.getStepsByUserAndPlan);
+router.get('/:username/:plan_id/count', steps_controller.getStepCountByUserAndPlan);
+
+router.get('/:username/count', steps_controller.getStepCountByUsername)
 
 router.post('/', steps_controller.create);
 
