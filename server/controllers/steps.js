@@ -25,7 +25,7 @@ exports.getStepsByUserAndPlan = (req, res, next) => {
     .then((userPlan) => {
       userPlan.getSteps()
       .then((steps) => {
-        res.status(200).json(steps)
+        res.status(200).json( { step_count: Object.keys(steps).length } )
       })
       .catch((err) => {
         throw err
@@ -66,9 +66,9 @@ exports.create = (req, res, next) => {
        Step
         .create({
           steps: steps,
+          user_plans_id: userPlan.id
         })
         .then((step) => {
-          userPlan.addStep(step)
           res.status(200).json({status: "ok"})
         })
         .catch((err) => {
