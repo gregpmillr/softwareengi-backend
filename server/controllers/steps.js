@@ -48,7 +48,7 @@ exports.create = (req, res, next) => {
   // get the UserPlan using the passed in planId and userId that was just fetched
   // create a step and add it to the UserPlan using addStep
 
-   let { steps, username, plan_id } = req.body
+   let { steps, username, planId } = req.body
 
    User.findOne({
      where: {
@@ -58,8 +58,8 @@ exports.create = (req, res, next) => {
    .then((user) => {
      UserPlan.findOne({
        where: {
-         userId: user.id,
-         planId: plan_id
+         user_id: user.id,
+         plan_id: planId
        }
      })
      .then((userPlan) => {
