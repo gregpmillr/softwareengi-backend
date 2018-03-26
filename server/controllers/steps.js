@@ -1,69 +1,86 @@
 const Step = require('../models').step;
+const User = require('../models').user;
+const UserPlan = require('../models').userPlan;
 
-exports.getAll = (req, res, next) => {
+exports.getStepsByUserAndPlan = (req, res, next) => {
 
-  Step.findAll({})
-    .then((steps) => {
-      res.status(200).json(steps)
+  // get the User from username
+  // get the UserPlan using the passed in planId and userId that was just fetched
+  // get the steps from that userPlan
+
+  let { username, plan_id } = req.params
+
+  User.findOne({
+    where: {
+      username: username
+    }
+  })
+  .then((user) => {
+    UserPlan.findOne({
+      where: {
+        userId: user.id,
+        planId: plan_id
+      }
     })
-    .catch((err) => {
-      res.status(400).json(err)
-    })
-
-}
-
-exports.get = (req, res, next) => {
-
-  let {id} = req.params
-
-  Step.findById(req.params.id)
-    .then((step) => {
-      res.status(200).json(step)
-    })
-    .catch((err) => {
-      res.status(400).json(err)
-    })
-
-}
-
-exports.create = (req, res, next) => {
-
-   let { steps, plan_id } = req.body
-
-   Step
-    .create({
-      steps        : steps,
-      user_plan_id : user_plan_id,
-    })
-    .then((step) => {
-      res.status(200).json(step)
-    })
-    .catch((err) => {
-      res.status(400).json({error:"Unable to create step"})
-    })
-}
-
-exports.update = (req, res, next) => {
-
-  let { steps, id } = req.body
-
-  Step.findById(id)
-    .then((step) => {
-      return step.update({
-        steps : steps,
-      })
-      .then((step) => {
-        return step
+    .then((userPlan) => {
+      userPlan.getSteps()
+      .then((steps) => {
+        res.status(200).json(steps)
       })
       .catch((err) => {
         throw err
       })
     })
-    .then((step) => {
-      res.status(200).json(step)
-    })
     .catch((err) => {
-      res.status(400).json({error: "Unable to update step"})
+      throw err
     })
+  })
+  .catch((err) => {
+    res.status(400).json(err)
+  })
+
+
+}
+
+exports.create = (req, res, next) => {
+
+  // get the User from username
+  // get the UserPlan using the passed in planId and userId that was just fetched
+  // create a step and add it to the UserPlan using addStep
+
+   let { steps, username, plan_id } = req.body
+
+   User.findOne({
+     where: {
+       username: username
+     }
+   })
+   .then((user) => {
+     UserPlan.findOne({
+       where: {
+         userId: user.id,
+         planId: plan_id
+       }
+     })
+     .then((userPlan) => {
+       Step
+        .create({
+          steps: steps,
+        })
+        .then((step) => {
+          userPlan.addStep(step)
+          res.status(200).json({status: "ok"})
+        })
+        .catch((err) => {
+          throw err
+        })
+     })
+     .catch((err) => {
+       throw err
+     })
+   })
+   .catch((err) => {
+     res.status(400).json(err)
+   })
 
 }

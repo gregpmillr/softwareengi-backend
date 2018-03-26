@@ -7,12 +7,8 @@ router.use((req,res,next) => {
   next()
 })
 
-router.get('/', steps_controller.getAll);
-
-router.get('/:id', steps_controller.get);
+router.get('/:username/:plan_id/list', steps_controller.getStepsByUserAndPlan);
 
 router.post('/', steps_controller.create);
-
-router.post('/update', steps_controller.update);
 
 module.exports = router;
