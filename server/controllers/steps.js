@@ -1,6 +1,6 @@
-const Step = require('../models').step;
-const User = require('../models').user;
-const UserPlan = require('../models').userPlan;
+const Step = require('../models').steps;
+const User = require('../models').users;
+const UserPlan = require('../models').user_plans;
 
 exports.getStepsByUserAndPlan = (req, res, next) => {
 
@@ -18,8 +18,8 @@ exports.getStepsByUserAndPlan = (req, res, next) => {
   .then((user) => {
     UserPlan.findOne({
       where: {
-        userId: user.id,
-        planId: plan_id
+        user_id: user.id,
+        plan_id: plan_id
       }
     })
     .then((userPlan) => {
