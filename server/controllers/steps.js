@@ -92,36 +92,59 @@ exports.getStepCountByUsername = (req, res, next) => {
   // append the steps to a counter
 
   let { username } = req.params
-  let stepCount = 0;
 
-  User.findOne({
+  return User.findOne({
     where: {
       username: username
     }
   })
   .then((user) => {
-    UserPlan.findAll({
+    return UserPlan.findAll({
       where: {
         user_id: user.id,
       }
     })
     .then((userPlans) => {
-      userPlans.forEach((userPlan) => {
-        userPlan.getSteps()
-        .then((steps) => {
-          stepCount = stepCount + Object.keys(steps).length
-        })
-        .catch((err) => {
-          throw err
-        })
-      })
+        return userPlans;
     })
     .catch((err) => {
       throw err
     })
   })
   .catch((err) => {
+        let prom = new Promise((resolve, reject) => {
+                 
+        })
+
+        prom.then((step) => {
+
+        })
     res.status(400).json(err)
+  })
+  .then((userPlans) => {
+
+	let stepCount = 0;
+	let i = 0;
+
+	// iterate through each plan
+	for(let userPlan of userPlans) {
+	  // iterate through each step in plan
+	  userPlan.getSteps()
+	  .then((steps) => {
+		steps.forEach((step) => {
+			stepCount = stepCount + step.steps
+		})
+		return stepCount
+	  })
+	  .then((stepCount) => {
+		i++;
+		// if we've iterated through each plan, return the step counter
+		if(i === userPlans.length) {
+			res.status(200).json({step_count: stepCount})
+		}
+	  })
+	}
+
   })
 
 }
