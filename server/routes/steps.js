@@ -7,10 +7,12 @@ router.use((req,res,next) => {
   next()
 })
 
-router.get('/:username/:plan_id/count', steps_controller.getStepCountByUserAndPlan);
-
 router.get('/:username/count', steps_controller.getStepCountByUsername)
 
+router.get('/:username/recentActivity', steps_controller.recentActivity)
+
 router.post('/', steps_controller.create);
+
+router.get('/:username/:plan_id/count', steps_controller.getStepCountByUserAndPlan);
 
 module.exports = router;

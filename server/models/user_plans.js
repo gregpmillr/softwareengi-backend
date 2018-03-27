@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user_plans_id',
       as: 'Steps'
     })
+	UserPlan.belongsTo(models.users)
+	UserPlan.belongsTo(models.plans)
   }
 
   return UserPlan;

@@ -1,6 +1,8 @@
 const Step = require('../models').steps;
 const User = require('../models').users;
 const UserPlan = require('../models').user_plans;
+const moment = require('moment');
+const { Op } = require('sequelize');
 
 exports.create = (req, res, next) => {
 
@@ -146,5 +148,58 @@ exports.getStepCountByUsername = (req, res, next) => {
 	}
 
   })
+
+}
+
+exports.recentActivity = (req,res,next) => {
+
+	let {username} = req.params
+
+	User.findOne({
+		where: {
+			username: username
+		}
+	})
+	.then(user => {
+		UserPlan.findAll({
+			attributes: {
+				exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
+			},
+			where: {
+				user_id: user.id
+			},
+			include: [
+				{
+					model: Step,
+					as: 'Steps',
+					attributes: [
+						'steps','updated_at'
+					],
+					where: {
+						updated_at: {
+							[Op.gte]: moment().subtract(1, 'days').toDate()
+						}
+					}
+				}
+			]
+		})
+		.then(userPlans => {
+			let planCount = 0;
+			let stepCount = 0;
+			for (let userPlan of userPlans) {
+				planCount++;
+				for(let step of userPlan.Steps) {
+					stepCount = stepCount + step.steps
+				}
+			}
+			res.status(200).json({planCount: planCount, stepCount: stepCount})
+		})
+		.catch(err => {
+			throw err
+		})
+	})
+	.catch(err => {
+		res.status(400).json(err)
+	})
 
 }
