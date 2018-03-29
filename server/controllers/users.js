@@ -124,9 +124,10 @@ exports.get = (req, res, next) => {
                    .catch(err => {
                            throw err
                    })
-                   .then(user => {
-                     return user;
-                   })
+                })
+                .then(user => {
+                  console.log("RETURNING USER...")
+                  return user
                 })
         })
         .catch(err => {
