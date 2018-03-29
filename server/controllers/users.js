@@ -71,7 +71,8 @@ exports.get = (req, res, next) => {
                 })
                 .then(userPlans => {
                               // going to do something odd and just make the user have these new fields
-                              let recentPlans, recentSteps = 0;
+                              let recentPlans = 0
+			      let recentSteps = 0
                               for (let userPlan of userPlans) {
                                       recentPlans++;
                                       for(let step of userPlan.Steps) {
