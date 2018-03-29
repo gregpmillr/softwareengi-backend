@@ -109,10 +109,11 @@ exports.get = (req, res, next) => {
                            })
                            .then(userPlans => {
                                    console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
-                                   let totalSteps;
+                                   let totalSteps = 0;
 
                                    for (let userPlan of userPlans) {
                                            for(let step of userPlan.Steps) {
+                                                  console.log("step:" + step.steps)
                                                    totalSteps = totalSteps + step.steps
                                            }
                                    }
