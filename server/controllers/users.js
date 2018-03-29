@@ -24,7 +24,7 @@ exports.getAll = (req, res, next) => {
 exports.get = (req, res, next) => {
 
   let {username} = req.params
-  let totalPlans, totalTeams, totalSteps, recentPlans, recentSteps
+  let totalPlans, totalTeams
 
   User.findOne({
     where: {
@@ -72,6 +72,8 @@ exports.get = (req, res, next) => {
                 })
                 .then(userPlans => {
                         console.log("FOUND USERPLANS, ITERATING...")
+                        // going to do something odd and just make the user have these new fields
+                        let recentPlans, recentSteps;
                         for (let userPlan of userPlans) {
                                 recentPlans++;
                                 for(let step of userPlan.Steps) {
@@ -79,6 +81,8 @@ exports.get = (req, res, next) => {
                                 }
                         }
 
+                        user.recentPlans = recentPlans
+                        user.recentSteps = recentSteps
                         return user
                 })
                 .catch(err => {
@@ -105,11 +109,16 @@ exports.get = (req, res, next) => {
                    })
                    .then(userPlans => {
                            console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
+                           let totalSteps;
+
                            for (let userPlan of userPlans) {
                                    for(let step of userPlan.Steps) {
                                            totalSteps = recentSteps + step.steps
                                    }
                            }
+
+                           user.totalSteps = totalSteps
+                           return user;
 
                    })
                    .catch(err => {
@@ -124,14 +133,14 @@ exports.get = (req, res, next) => {
   .catch(err => {
 	   res.status(400).json(err)
   })
-  .then(() => {
+  .then((user) => {
     console.log("!!!COMPLETED!!!")
     res.status(200).json({
         total_plans: totalPlans,
         total_teams: totalTeams,
-        total_steps: totalSteps,
-        recent_plans: recentPlans,
-        recent_steps: recentSteps
+        total_steps: user.totalSteps,
+        recent_plans: user.recentPlans,
+        recent_steps: user.recentSteps
     })
   })
 
