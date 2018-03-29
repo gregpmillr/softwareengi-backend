@@ -81,8 +81,8 @@ exports.get = (req, res, next) => {
                                 }
                         }
 
-                        user.recentPlans = recentPlans
-                        user.recentSteps = recentSteps
+                        user['recentPlans'] = recentPlans
+                        user.['recentSteps'] = recentSteps
                         return user
                 })
                 .catch(err => {
@@ -117,7 +117,7 @@ exports.get = (req, res, next) => {
                                    }
                            }
 
-                           user.totalSteps = totalSteps
+                           user['totalSteps'] = totalSteps
                            return user;
 
                    })
