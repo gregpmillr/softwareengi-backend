@@ -47,7 +47,6 @@ exports.get = (req, res, next) => {
                 }
         })
         .then(user => {
-                 console.log("FINDING RECENTS")
                  return UserPlan.findAll({
                         attributes: {
                                 exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
@@ -71,9 +70,8 @@ exports.get = (req, res, next) => {
                         ]
                 })
                 .then(userPlans => {
-                              console.log("FOUND USERPLANS, ITERATING...")
                               // going to do something odd and just make the user have these new fields
-                              let recentPlans, recentSteps;
+                              let recentPlans, recentSteps = 0;
                               for (let userPlan of userPlans) {
                                       recentPlans++;
                                       for(let step of userPlan.Steps) {
@@ -89,7 +87,6 @@ exports.get = (req, res, next) => {
                         throw err
                 })
                 .then(user => {
-                            console.log("FINDING TOTAL STEPS...")
                             return UserPlan.findAll({
                                    attributes: {
                                            exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
@@ -108,19 +105,15 @@ exports.get = (req, res, next) => {
                                    ]
                            })
                            .then(userPlans => {
-                                   console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
                                    let totalSteps = 0;
 
                                    for (let userPlan of userPlans) {
                                            for(let step of userPlan.Steps) {
-                                                  console.log("step:" + step.steps)
                                                    totalSteps = totalSteps + step.steps
                                            }
                                    }
 
-                                   console.log("ASSIGNING TOTAL STEPS")
                                    user['totalSteps'] = totalSteps
-                                   console.log("user total steps 1: " + user.totalSteps)
                                    return user;
 
                            })
@@ -128,8 +121,6 @@ exports.get = (req, res, next) => {
                                    throw err
                            })
                            .then(user => {
-                             console.log("user total steps 2: " + user.totalSteps)
-                             console.log("RETURNING INNER USER")
                              return user;
                            })
                 })
@@ -137,8 +128,6 @@ exports.get = (req, res, next) => {
                   throw err
                 })
                 .then(user => {
-                  console.log("user total steps 3: " + user.totalSteps)
-                  console.log("RETURNING USER...")
                   return user
                 })
         })
@@ -146,7 +135,6 @@ exports.get = (req, res, next) => {
                 throw err
         })
         .then(user => {
-          console.log("NEARING THE END OF THE CHAIN, HERES THE USER: " + user)
           return user;
         })
   })
@@ -154,7 +142,6 @@ exports.get = (req, res, next) => {
 	   res.status(400).json(err)
   })
   .then((user) => {
-    console.log("!!!COMPLETED!!!")
     res.status(200).json({
         total_plans: totalPlans,
         total_teams: totalTeams,
