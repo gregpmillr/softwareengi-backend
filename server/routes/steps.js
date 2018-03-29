@@ -9,8 +9,6 @@ router.use((req,res,next) => {
 
 router.get('/:username/count', steps_controller.getStepCountByUsername)
 
-router.get('/:username/recentActivity', steps_controller.recentActivity)
-
 router.post('/', steps_controller.create);
 
 router.get('/:username/:plan_id/list', steps_controller.getStepsByUserAndPlan);

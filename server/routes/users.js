@@ -11,6 +11,8 @@ router.get('/', users_controller.getAll);
 
 router.get('/:username', users_controller.get);
 
+router.get('/:username/recentActivity', users_controller.recentActivity)
+
 router.post('/', users_controller.create);
 
 router.post('/update', users_controller.update);
