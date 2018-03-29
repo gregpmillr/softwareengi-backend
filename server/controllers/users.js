@@ -100,8 +100,8 @@ exports.get = (req, res, next) => {
         total_plans: totalPlans,
         total_teams: totalTeams,
         total_steps: totalSteps,
-        recent_plans: planCount,
-        recent_steps: stepCount
+        recent_plans: recentPlans,
+        recent_steps: recentSteps
     })
   })
 
