@@ -47,7 +47,7 @@ exports.get = (req, res, next) => {
                 }
         })
         .then(user => {
-                 console.log("finding recent data")
+                 console.log("FINDING RECENTS")
                  return UserPlan.findAll({
                         attributes: {
                                 exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
@@ -71,7 +71,7 @@ exports.get = (req, res, next) => {
                         ]
                 })
                 .then(userPlans => {
-                        console.log("found userPlans, iterating to get recent plans and steps")
+                        console.log("FOUND USERPLANS, ITERATING...")
                         for (let userPlan of userPlans) {
                                 recentPlans++;
                                 for(let step of userPlan.Steps) {
@@ -85,6 +85,7 @@ exports.get = (req, res, next) => {
                         throw err
                 })
                 .then(user => {
+                    console.log("FINDING TOTAL STEPS...")
                     return UserPlan.findAll({
                            attributes: {
                                    exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
@@ -103,7 +104,7 @@ exports.get = (req, res, next) => {
                            ]
                    })
                    .then(userPlans => {
-                           console.log("found userPlans, iterating to get all steps")
+                           console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
                            for (let userPlan of userPlans) {
                                    for(let step of userPlan.Steps) {
                                            totalSteps = recentSteps + step.steps
@@ -124,6 +125,7 @@ exports.get = (req, res, next) => {
 	   res.status(400).json(err)
   })
   .then(() => {
+    console.log("!!!COMPLETED!!!")
     res.status(200).json({
         total_plans: totalPlans,
         total_teams: totalTeams,
