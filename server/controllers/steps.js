@@ -47,45 +47,6 @@ exports.create = (req, res, next) => {
 
 }
 
-exports.getStepCountByUserAndPlan = (req, res, next) => {
-
-  // get the User from username
-  // get the UserPlan using the passed in planId and userId that was just fetched
-  // get the steps from that userPlan
-
-  let { username, plan_id } = req.params
-
-  User.findOne({
-    where: {
-      username: username
-    }
-  })
-  .then((user) => {
-    UserPlan.findOne({
-      where: {
-        user_id: user.id,
-        plan_id: plan_id
-      }
-    })
-    .then((userPlan) => {
-      userPlan.getSteps()
-      .then((steps) => {
-        res.status(200).json( { step_count: Object.keys(steps).length } )
-      })
-      .catch((err) => {
-        throw err
-      })
-    })
-    .catch((err) => {
-      throw err
-    })
-  })
-  .catch((err) => {
-    res.status(400).json(err)
-  })
-
-}
-
 exports.getStepCountByUsername = (req, res, next) => {
 
   // get the user from the username
@@ -201,5 +162,51 @@ exports.recentActivity = (req,res,next) => {
 	.catch(err => {
 		res.status(400).json(err)
 	})
+
+}
+
+exports.getStepsByUserAndPlan = (req,res,next) => {
+        let { username, plan_id } = req.params
+
+        User.findOne({
+                where: {
+                        username: username
+                }
+        })
+        .then(user => {
+                UserPlan.findAll({
+                        attributes: {
+                                exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id', 'plan_id']
+                        },
+                        where: {
+                                user_id: user.id,
+				plan_id: plan_id
+                        },
+                        include: [
+                                {
+                                        model: Step,
+                                        as: 'Steps',
+                                        attributes: [
+                                                'steps','updated_at'
+                                        ]
+                                }
+                        ]
+                })
+                .then(userPlans => {
+                        let steps = [];
+                        for (let userPlan of userPlans) {
+                                for(let step of userPlan.Steps) {
+                                        steps.push(step)
+                                }
+                        }
+                        res.status(200).json(steps)
+                })
+                .catch(err => {
+                        throw err
+                })
+        })
+        .catch(err => {
+                res.status(400).json(err)
+        })
 
 }

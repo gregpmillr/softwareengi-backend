@@ -13,8 +13,6 @@ router.get('/:username/recentActivity', steps_controller.recentActivity)
 
 router.post('/', steps_controller.create);
 
-router.get('/:username/:plan_id/count', steps_controller.getStepCountByUserAndPlan);
-
 router.get('/:username/:plan_id/list', steps_controller.getStepsByUserAndPlan);
 
 module.exports = router;
