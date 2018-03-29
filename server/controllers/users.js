@@ -24,7 +24,7 @@ exports.getAll = (req, res, next) => {
 exports.get = (req, res, next) => {
 
   let {username} = req.params
-  let totalPlans, totalTeams, totalSteps
+  let totalPlans, totalTeams, totalSteps, recentPlans, recentSteps
 
   User.findOne({
     where: {
@@ -47,7 +47,8 @@ exports.get = (req, res, next) => {
                 }
         })
         .then(user => {
-                UserPlan.findAll({
+                 console.log("finding recent data")
+                 UserPlan.findAll({
                         attributes: {
                                 exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
                         },
@@ -70,19 +71,21 @@ exports.get = (req, res, next) => {
                         ]
                 })
                 .then(userPlans => {
-                        let planCount = 0;
-                        let stepCount = 0;
+                        console.log("found userPlans, iterating to get recent plans and steps")
                         for (let userPlan of userPlans) {
-                                planCount++;
+                                recentPlans++;
                                 for(let step of userPlan.Steps) {
-                                        stepCount = stepCount + step.steps
+                                        recentSteps = recentSteps + step.steps
                                 }
                         }
 
-                        res.status(200).json({total_plans: totalPlans, total_teams: totalTeams, recent_plans: planCount, recent_steps: stepCount})
+                        return user
                 })
                 .catch(err => {
                         throw err
+                })
+                .then(user => {
+                    console.log("Here's the returned user: " + user)
                 })
         })
         .catch(err => {
@@ -90,7 +93,16 @@ exports.get = (req, res, next) => {
         })
   })
   .catch(err => {
-	res.status(400).json(err)
+	   res.status(400).json(err)
+  })
+  .then(() => {
+    res.status(200).json({
+        total_plans: totalPlans,
+        total_teams: totalTeams,
+        total_steps: totalSteps,
+        recent_plans: planCount,
+        recent_steps: stepCount
+    })
   })
 
 }
@@ -231,4 +243,3 @@ exports.recentActivity = (req,res,next) => {
         })
 
 }
-
