@@ -71,64 +71,67 @@ exports.get = (req, res, next) => {
                         ]
                 })
                 .then(userPlans => {
-                        console.log("FOUND USERPLANS, ITERATING...")
-                        // going to do something odd and just make the user have these new fields
-                        let recentPlans, recentSteps;
-                        for (let userPlan of userPlans) {
-                                recentPlans++;
-                                for(let step of userPlan.Steps) {
-                                        recentSteps = recentSteps + step.steps
-                                }
-                        }
+                              console.log("FOUND USERPLANS, ITERATING...")
+                              // going to do something odd and just make the user have these new fields
+                              let recentPlans, recentSteps;
+                              for (let userPlan of userPlans) {
+                                      recentPlans++;
+                                      for(let step of userPlan.Steps) {
+                                              recentSteps = recentSteps + step.steps
+                                      }
+                              }
 
-                        user['recentPlans'] = recentPlans
-                        user['recentSteps'] = recentSteps
-                        return user
+                              user['recentPlans'] = recentPlans
+                              user['recentSteps'] = recentSteps
+                              return user
                 })
                 .catch(err => {
                         throw err
                 })
                 .then(user => {
-                    console.log("FINDING TOTAL STEPS...")
-                    return UserPlan.findAll({
-                           attributes: {
-                                   exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
-                           },
-                           where: {
-                                   user_id: user.id
-                           },
-                           include: [
-                                   {
-                                           model: Step,
-                                           as: 'Steps',
-                                           attributes: [
-                                                   'steps'
-                                           ]
+                            console.log("FINDING TOTAL STEPS...")
+                            return UserPlan.findAll({
+                                   attributes: {
+                                           exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
+                                   },
+                                   where: {
+                                           user_id: user.id
+                                   },
+                                   include: [
+                                           {
+                                                   model: Step,
+                                                   as: 'Steps',
+                                                   attributes: [
+                                                           'steps'
+                                                   ]
+                                           }
+                                   ]
+                           })
+                           .then(userPlans => {
+                                   console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
+                                   let totalSteps;
+
+                                   for (let userPlan of userPlans) {
+                                           for(let step of userPlan.Steps) {
+                                                   totalSteps = recentSteps + step.steps
+                                           }
                                    }
-                           ]
-                   })
-                   .then(userPlans => {
-                           console.log("FOUND USERPLANS, ITERATING TO GET ALL STEPS")
-                           let totalSteps;
 
-                           for (let userPlan of userPlans) {
-                                   for(let step of userPlan.Steps) {
-                                           totalSteps = recentSteps + step.steps
-                                   }
-                           }
+                                   console.log("ASSIGNING TOTAL STEPS")
+                                   user['totalSteps'] = totalSteps
+                                   return user;
 
-                           console.log("ASSIGNING TOTAL STEPS")
-                           user['totalSteps'] = totalSteps
-                           return user;
-
-                   })
-                   .catch(err => {
-                           throw err
-                   })
-                   .then(user => {
-                     console.log("RETURNING INNER USER")
-                     return user;
-                   })
+                           })
+                           .catch(err => {
+                                   throw err
+                           })
+                           .then(user => {
+                             console.log("RETURNING INNER USER")
+                             return user;
+                           })
+                })
+                .catch(err => {
+                  throw err
                 })
                 .then(user => {
                   console.log("RETURNING USER...")
