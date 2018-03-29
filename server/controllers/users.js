@@ -119,6 +119,7 @@ exports.get = (req, res, next) => {
 
                                    console.log("ASSIGNING TOTAL STEPS")
                                    user['totalSteps'] = totalSteps
+                                   console.log("user total steps 1: " + user.totalSteps)
                                    return user;
 
                            })
@@ -126,6 +127,7 @@ exports.get = (req, res, next) => {
                                    throw err
                            })
                            .then(user => {
+                             console.log("user total steps 2: " + user.totalSteps)
                              console.log("RETURNING INNER USER")
                              return user;
                            })
@@ -134,6 +136,7 @@ exports.get = (req, res, next) => {
                   throw err
                 })
                 .then(user => {
+                  console.log("user total steps 3: " + user.totalSteps)
                   console.log("RETURNING USER...")
                   return user
                 })
