@@ -82,7 +82,7 @@ exports.get = (req, res, next) => {
                         }
 
                         user['recentPlans'] = recentPlans
-                        user.['recentSteps'] = recentSteps
+                        user['recentSteps'] = recentSteps
                         return user
                 })
                 .catch(err => {
@@ -124,10 +124,17 @@ exports.get = (req, res, next) => {
                    .catch(err => {
                            throw err
                    })
+                   .then(user => {
+                     return user;
+                   })
                 })
         })
         .catch(err => {
                 throw err
+        })
+        .then(user => {
+          console.log("NEARING THE END OF THE CHAIN, HERES THE USER: " + user)
+          return user;
         })
   })
   .catch(err => {
