@@ -113,7 +113,7 @@ exports.get = (req, res, next) => {
 
                                    for (let userPlan of userPlans) {
                                            for(let step of userPlan.Steps) {
-                                                   totalSteps = recentSteps + step.steps
+                                                   totalSteps = totalSteps + step.steps
                                            }
                                    }
 
