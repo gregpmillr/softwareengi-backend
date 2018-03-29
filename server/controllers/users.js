@@ -117,12 +117,17 @@ exports.get = (req, res, next) => {
                                    }
                            }
 
+                           console.log("ASSIGNING TOTAL STEPS")
                            user['totalSteps'] = totalSteps
                            return user;
 
                    })
                    .catch(err => {
                            throw err
+                   })
+                   .then(user => {
+                     console.log("RETURNING INNER USER")
+                     return user;
                    })
                 })
                 .then(user => {
