@@ -41,14 +41,14 @@ exports.get = (req, res, next) => {
     res.status(400).json(err);
   })
   .then(() => {
-        User.findOne({
+        return User.findOne({
                 where: {
                         username: username
                 }
         })
         .then(user => {
                  console.log("finding recent data")
-                 UserPlan.findAll({
+                 return UserPlan.findAll({
                         attributes: {
                                 exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
                         },
@@ -85,7 +85,35 @@ exports.get = (req, res, next) => {
                         throw err
                 })
                 .then(user => {
-                    console.log("Here's the returned user: " + user)
+                    return UserPlan.findAll({
+                           attributes: {
+                                   exclude: ['completed', 'id', 'created_at', 'updated_at', 'user_id']
+                           },
+                           where: {
+                                   user_id: user.id
+                           },
+                           include: [
+                                   {
+                                           model: Step,
+                                           as: 'Steps',
+                                           attributes: [
+                                                   'steps'
+                                           ]
+                                   }
+                           ]
+                   })
+                   .then(userPlans => {
+                           console.log("found userPlans, iterating to get all steps")
+                           for (let userPlan of userPlans) {
+                                   for(let step of userPlan.Steps) {
+                                           totalSteps = recentSteps + step.steps
+                                   }
+                           }
+
+                   })
+                   .catch(err => {
+                           throw err
+                   })
                 })
         })
         .catch(err => {
