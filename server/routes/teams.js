@@ -9,6 +9,8 @@ router.use((req,res,next) => {
 
 router.get('/', teams_controller.getAll);
 
+router.get('/:username', teams_controller.getAllByUsername);
+
 router.get('/:id', teams_controller.get);
 
 router.post('/', teams_controller.create);

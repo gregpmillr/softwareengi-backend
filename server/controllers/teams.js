@@ -1,22 +1,58 @@
 const Team = require('../models').teams;
+const User = require('../models').users;
 
 exports.create = (req, res, next) => {
 
-  let {name} = req.body
+  let {name, selectedUsers, coach} = req.body
 
-  Team
-    .create({
-      name: name,
-    })
-    .then((team) => {
-      res.status(200).json(team)
-    })
-    .catch((err) => {
-      res.status(400).json({error:"Unable to create team"})
-    })
+  User.findOne({
+	where: {
+		username: coach
+	}
+  })
+  .then(user => {
+  	Team
+    	.create({
+      		name: name,
+      		coach_id: user.id
+    	})
+    	.then((team) => {
+        	return  User.findAll({
+                	where: 	{
+                        		username: {
+                                		[Op.or]: selectedUsers
+                        		}
+                		}
+        		})
+        		.then(users => {
+               			team.addUsers([users])
+        		})
+        		.catch(err => {
+                		throw err
+       	 		})
+   	 })
+   	 .catch(err => {
+     	 	throw err
+	 })
+
+  })
+  .catch(err => {
+	res.status(400).json(err)
+  })
+
 }
 
-exports.getAll = (req, res, next) => {
+exports.getAll = (req,res,next) => {
+	Team.findAll({})
+	.then(teams => {
+		res.status(200).json(teams)
+	})
+	.catch(err => {
+		res.status(400).json(err)
+	})
+}
+
+exports.getAllByUsername = (req, res, next) => {
 
   let { username } = req.params
 
