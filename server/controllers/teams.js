@@ -11,7 +11,7 @@ exports.create = (req, res, next) => {
 	}
   })
   .then(user => {
-  	Team
+  	return Team
     	.create({
       		name: name,
       		coach_id: user.id
@@ -38,6 +38,9 @@ exports.create = (req, res, next) => {
   })
   .catch(err => {
 	res.status(400).json(err)
+  })
+  .then(() => {
+	res.status(200).json({"status":"OK"})
   })
 
 }
