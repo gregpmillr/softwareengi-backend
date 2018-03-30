@@ -1,31 +1,37 @@
 const Team = require('../models').teams;
 const User = require('../models').users;
+const { Op } = require('sequelize');
 
 exports.create = (req, res, next) => {
 
   let {name, selectedUsers, coach} = req.body
-
+  console.log("NAME: " + name)
+  console.log("SELECTED USERS: " + selectedUsers)
+  console.log("COACH: " + coach)
   User.findOne({
 	where: {
 		username: coach
 	}
   })
   .then(user => {
+	console.log('1')
   	return Team
     	.create({
       		name: name,
       		coach_id: user.id
     	})
     	.then((team) => {
+		console.log('2')
         	return  User.findAll({
                 	where: 	{
                         		username: {
-                                		[Op.or]: selectedUsers
+                                		[Op.or]: JSON.parse(selectedUsers)
                         		}
                 		}
         		})
         		.then(users => {
-               			team.addUsers([users])
+				console.log('3')
+               			team.addUsers(users)
         		})
         		.catch(err => {
                 		throw err
@@ -37,9 +43,11 @@ exports.create = (req, res, next) => {
 
   })
   .catch(err => {
+	console.log(err)
 	res.status(400).json(err)
   })
   .then(() => {
+	console.log('4')
 	res.status(200).json({"status":"OK"})
   })
 
