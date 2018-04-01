@@ -12,38 +12,81 @@ exports.create = (req, res, next) => {
 
    let { steps, username, planId } = req.body
 
-   User.findOne({
-     where: {
-       username: username
-     }
+   Plan.findById(planId)
+   .then(plan => {
+     return plan;
    })
-   .then((user) => {
-     UserPlan.findOne({
-       where: {
-         user_id: user.id,
-         plan_id: planId
-       }
-     })
-     .then((userPlan) => {
-       Step
-        .create({
-          steps: steps,
-          user_plans_id: userPlan.id
-        })
-        .then((step) => {
-          res.status(200).json({status: "ok"})
-        })
-        .catch((err) => {
-          throw err
-        })
-     })
-     .catch((err) => {
-       throw err
-     })
+   .catch(err => {
+     throw err
    })
-   .catch((err) => {
+   .then(plan => {
+                   User.findOne({
+                     where: {
+                       username: username
+                     }
+                   })
+                   .then((user) => {
+                     UserPlan.findOne({
+                       where: {
+                         user_id: user.id,
+                         plan_id: plan.id
+                       }
+                     })
+                     .then((userPlan) => {
+                       Step
+                        .create({
+                          steps: steps,
+                          user_plans_id: userPlan.id
+                        })
+                        .then((step) => {
+                          return step
+                        })
+                        .catch((err) => {
+                          throw err
+                        })
+                     })
+                     .catch((err) => {
+                       throw err
+                     })
+                    .then(step => {
+                      // check to see if the plan is completed
+                      UserPlan.findAll({
+                        where: {
+                          planId: plan.id
+                        }
+                      })
+                      .then(userPlans => {
+                        let stepCount = 0;
+                        let i = 0;
+                        for(let userPlan of userPlans) {
+                            // iterate through each step in each userPlan
+                            userPlan.getSteps()
+                            .then((steps) => {
+                                steps.forEach((step) => {
+                                  stepCount = stepCount + step.steps
+                                })
+                                return stepCount
+                            })
+                            .then((stepCount) => {
+                                i++;
+                                // if we've iterated through each plan, return the step counter
+                                if(i === userPlans.length) {
+                                  res.status(200).json({completed: plans.requiredSteps <= stepCount})
+                                }
+                            })
+                        }
+                      })
+                    })
+                   })
+                   .catch((err) => {
+                     throw err
+                   })
+   })
+   .catch(err => {
      res.status(400).json(err)
    })
+
+
 
 }
 
@@ -76,7 +119,7 @@ exports.getStepCountByUsername = (req, res, next) => {
   })
   .catch((err) => {
         let prom = new Promise((resolve, reject) => {
-                 
+
         })
 
         prom.then((step) => {
