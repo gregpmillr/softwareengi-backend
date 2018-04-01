@@ -101,6 +101,7 @@ exports.update = (req,res,next) => {
       res.status(200).json({status: "ok"})
     })
     .catch((err) => {
+	console.log(err)
       res.status(400).json({error: "Unable to update required steps in plan"})
     })
 

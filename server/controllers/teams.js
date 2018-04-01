@@ -7,9 +7,7 @@ const { Op } = require('sequelize');
 exports.create = (req, res, next) => {
 
   let {name, selectedUsers, coach} = req.body
-  console.log("NAME: " + name)
-  console.log("SELECTED USERS: " + selectedUsers)
-  console.log("COACH: " + coach)
+
   User.findOne({
 	where: {
 		username: coach
@@ -42,11 +40,9 @@ exports.create = (req, res, next) => {
 
   })
   .catch(err => {
-	console.log(err)
 	res.status(400).json(err)
   })
-  .then(() => {
-	console.log('4')
+  .then(() = > {
 	res.status(200).json({"status":"OK"})
   })
 
