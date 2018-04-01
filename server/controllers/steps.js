@@ -3,6 +3,7 @@ const User = require('../models').users;
 const UserPlan = require('../models').user_plans;
 const moment = require('moment');
 const { Op } = require('sequelize');
+const Plan = require('../models').plans;
 
 exports.create = (req, res, next) => {
 
@@ -26,6 +27,7 @@ exports.create = (req, res, next) => {
                      }
                    })
                    .then((user) => {
+			console.log("finding the first userplan")
                      UserPlan.findOne({
                        where: {
                          user_id: user.id,
@@ -33,12 +35,14 @@ exports.create = (req, res, next) => {
                        }
                      })
                      .then((userPlan) => {
+			console.log("creating the step")
                        Step
                         .create({
                           steps: steps,
                           user_plans_id: userPlan.id
                         })
                         .then((step) => {
+				console.log("step created, returning")
                           return step
                         })
                         .catch((err) => {
@@ -49,19 +53,22 @@ exports.create = (req, res, next) => {
                        throw err
                      })
                     .then(step => {
+			console.log("got returned step, checking to see if plan is completed")
                       // check to see if the plan is completed
                       UserPlan.findAll({
                         where: {
-                          planId: plan.id
+                          plan_id: plan.id
                         }
                       })
                       .then(userPlans => {
+			console.log("got all user plans")
                         let stepCount = 0;
                         let i = 0;
                         for(let userPlan of userPlans) {
                             // iterate through each step in each userPlan
                             userPlan.getSteps()
                             .then((steps) => {
+				console.log("got all steps for this user plan")
                                 steps.forEach((step) => {
                                   stepCount = stepCount + step.steps
                                 })
@@ -71,7 +78,10 @@ exports.create = (req, res, next) => {
                                 i++;
                                 // if we've iterated through each plan, return the step counter
                                 if(i === userPlans.length) {
-                                  res.status(200).json({completed: plans.requiredSteps <= stepCount})
+					console.log("FINISHED!")
+				console.log("PLAN REQUIRED STEPS: " + plan.required_steps)
+				console.log("STEP COUNT: " + stepCount)
+                                  res.status(200).json({completed: plan.required_steps <= stepCount})
                                 }
                             })
                         }
@@ -83,6 +93,7 @@ exports.create = (req, res, next) => {
                    })
    })
    .catch(err => {
+	console.log(err)
      res.status(400).json(err)
    })
 

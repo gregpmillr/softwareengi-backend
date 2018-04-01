@@ -42,7 +42,7 @@ exports.create = (req, res, next) => {
   .catch(err => {
 	res.status(400).json(err)
   })
-  .then(() = > {
+  .then(() => {
 	res.status(200).json({"status":"OK"})
   })
 
