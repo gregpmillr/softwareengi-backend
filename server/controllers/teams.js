@@ -1,5 +1,7 @@
 const Team = require('../models').teams;
+const UserTeam = require('../models').user_teams;
 const User = require('../models').users;
+const Plan = require('../models').plans;
 const { Op } = require('sequelize');
 
 exports.create = (req, res, next) => {
@@ -14,14 +16,12 @@ exports.create = (req, res, next) => {
 	}
   })
   .then(user => {
-	console.log('1')
   	return Team
     	.create({
       		name: name,
       		coach_id: user.id
     	})
     	.then((team) => {
-		console.log('2')
         	return  User.findAll({
                 	where: 	{
                         		username: {
@@ -30,7 +30,6 @@ exports.create = (req, res, next) => {
                 		}
         		})
         		.then(users => {
-				console.log('3')
                			team.addUsers(users)
         		})
         		.catch(err => {
@@ -132,38 +131,102 @@ exports.update = (req, res, next) => {
 }
 
 exports.delete = (req,res,next) => {
-  let { teamName } = req.body
+	let { teamId } = req.body
 
-  Team.findOne({
-    where: {
-      name: teamName
-    },
-    attributes: ['id','name']
-  })
-  .then((team) => {
-    return UserTeam.findOne({
-      where: {
-        team_id : team.id
-      }
-    })
-    .then((userTeam) => {
-      return userTeam.destroy()
-    })
-    .catch((err) => {
-      throw err
-    })
-    .then(() => {
-      return team.destroy
-    })
-    .catch((err) => {
-      throw err
-    })
-  })
-  .catch((err) => {
-    res.status(400).json(err)
-  })
-  .then(() => {
-    res.status(200).json({status: "ok"})
-  })
+	Team.findById(teamId)
+	.then(team => {
+		console.log("DESTROYIN USER TEAMS")
+		UserTeam.destroy({
+			where: {
+				team_id: team.id
+			}
+		})
+		.then(() => {
+			console.log("DESTROYING TEAM")
+			team.destroy()
+			.then(() => {
+				res.status(200).json({status:"OK"})
+			})
+		})
+	})
+	.catch(err => {
+		res.status(400).json(err)
+	})
+
+
+}
+
+exports.getMembers = (req,res,next) => {
+
+	let { id } = req.params
+
+	Team.findById(id)
+	.then(team => {
+		team.getUsers()
+		.then(users => {
+			res.status(200).json(users)
+		})
+		.catch(err => {
+			throw err
+		})
+	})
+	.catch(err => {
+		console.log(err)
+		res.status(400).json(err)
+	})
+
+}
+
+exports.join = (req,res,next) => {
+
+	let { username, teamId } = req.body
+
+	User.findOne({
+		where: {
+			username: username
+		}
+	})
+	.then(user => {
+		// get the team to add this user to
+		return Team.findById(teamId)
+		.then(team => {
+			team.addUsers([user]);
+			res.status(200).json({status:"OK"})
+		})
+		.catch(err => {
+			throw err
+		})
+	})
+	.catch(err => {
+		res.status(400).json(err)
+	})
+
+}
+
+exports.massAssign = (req,res,next) => {
+
+	let { teamId, planId } = req.body
+	console.log("TEAMID: " + teamId)
+	console.log("PLANID: " + planId)
+	Team.findById(teamId)
+	.then(team => {
+		return team.getUsers()
+		.then(users => {
+			Plan.findById(planId)
+			.then(plan => {
+				plan.addUsers(users)
+				res.status(200).json({status:"OK"})
+			})
+			.catch(err => {
+				throw err
+			})
+		})
+		.catch(err => {
+			throw err
+		})
+	})
+	.catch(err => {
+		res.status(400).json(err)
+	})
 
 }

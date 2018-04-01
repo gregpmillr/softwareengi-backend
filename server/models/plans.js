@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       through: 'user_plans',
       onDelete: 'CASCADE'
     })
+
+    Plan.belongsTo(models.users, {
+	as: 'coach',
+	foreignKey: 'coach_id'
+    })
   };
 
   return Plan;

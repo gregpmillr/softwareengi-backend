@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   UserPlan.associate = function(models) {
     UserPlan.hasMany(models.steps, {
       foreignKey: 'user_plans_id',
-      as: 'Steps'
+      as: 'Steps',
+      onDelete: 'CASCADE'
     })
 	UserPlan.belongsTo(models.users)
 	UserPlan.belongsTo(models.plans)
